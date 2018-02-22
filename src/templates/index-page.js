@@ -24,7 +24,6 @@ export default class IndexPage extends React.Component {
     const { data: { allMarkdownRemark, allImageSharp } } = this.props;
     let remarkNodes = _.map(_.get(allMarkdownRemark, 'edges'), 'node');
     let sharpNodes = _.map(_.get(allImageSharp, 'edges'), 'node');
-    console.log(remarkNodes, sharpNodes);
 
     function getThumbnail(frontmatter) {
       let thumbnailId = _.get(frontmatter, 'thumbnail');
@@ -33,8 +32,7 @@ export default class IndexPage extends React.Component {
       
       var thumbnail = _.first(combineImagesharpWithContent(sharpNodes, [{ image: thumbnailId }]));
 
-      if (!thumbnail) return;
-      console.log(thumbnailId, thumbnail);
+      if (!_.get(thumbnail, ['image', 'sizes'])) return;
 
       return <Img sizes={thumbnail.image.sizes} />
     }
@@ -57,7 +55,7 @@ export default class IndexPage extends React.Component {
 }
 
 export const pageQuery = graphql`
-  query IndexQuery {
+  query IndexQuery($imageExp: String) {
     allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
       edges {
         node {
@@ -73,7 +71,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    allImageSharp {
+    allImageSharp(filter: {id: {regex: $imageExp}}) {
       edges {
         node {
           id

@@ -5,7 +5,6 @@
  * @returns {list} A list of imageContents with matching images assigned to their "image" property 
  */
 export function combineImagesharpWithContent(imageSharps, imageContent) {
-  console.log(imageSharps, imageContent);
     return imageContent
       .map(i => {
         var matchingImageSharp = _.find(imageSharps, imageSharp => new RegExp(i.image).test(_.get(imageSharp, 'id')));

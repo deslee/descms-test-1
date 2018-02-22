@@ -12,8 +12,8 @@ export const ImagePostTemplate = ({ title, images, content, contentComponent, he
   return (
     <div>
       { helmet || ''}
-      { images.map(i => 
-      <div>
+      { images.map((i, key) => 
+      <div key={key}>
         <Img sizes={i.image.sizes} /><br />{i.description}
       </div>
       ) }
