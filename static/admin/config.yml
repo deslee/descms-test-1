@@ -1,11 +1,52 @@
 backend:
-  name: git-gateway
-  branch: master
+  name: github
+  repo: deslee/descms-test-1
+  branch: dev-beth
 
 media_folder: static/img
 public_folder: /img
 
 collections:
+  - name: "video"
+    label: "Video Post"
+    folder: "src/pages/video-post"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields: 
+      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "video-post"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Video", name: "video", widget: "string"}
+      - {label: "Tags", name: "tags", widget: list }
+      - {label: "Body", name: "body", widget: "markdown"}
+      
+  - name: "image"
+    label: "Image Post"
+    folder: "src/pages/image-post"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields: 
+      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "image-post"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Thumbnail", name: "thumbnail", widget: "image"}
+      - {label: "Images", name: "images", widget: list, fields: [{label: "Image", name: "image", widget: "image"},{label: "Description", name: "description"}] }
+      - {label: "Tags", name: "tags", widget: list }
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "text"
+    label: "Text Post"
+    folder: "src/pages/text-post"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields: 
+      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "text-post"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Thumbnail", name: "thumbnail", widget: "image"}
+      - {label: "Tags", name: "tags", widget: list }
+      - {label: "Body", name: "body", widget: "markdown"}
+
   - name: "blog"
     label: "Blog"
     folder: "src/pages/blog"
