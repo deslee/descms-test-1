@@ -1,5 +1,6 @@
 ---
 templateKey: image-post
+path: /coffee-or-something
 title: Coffee or something
 date: 2018-02-22T00:07:39.170Z
 thumbnail: /img/coffee-gear.png

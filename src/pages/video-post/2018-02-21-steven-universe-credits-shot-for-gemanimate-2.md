@@ -1,5 +1,6 @@
 ---
 templateKey: video-post
+path: /steven-credits
 title: Steven Universe Credits Shot for Gemanimate 2
 date: 2018-02-21T00:00:00-06:00
 video: 'https://vimeo.com/207962269'

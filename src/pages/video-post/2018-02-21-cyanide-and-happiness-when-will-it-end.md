@@ -1,5 +1,6 @@
 ---
 templateKey: video-post
+path: /when-will-it-end
 title: 'Cyanide and Happiness: When will it end'
 date: 2018-02-22T00:05:26.092Z
 video: 'https://vimeo.com/236995324'
