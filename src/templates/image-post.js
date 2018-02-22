@@ -3,7 +3,7 @@ import graphql from 'graphql';
 import Helmet from 'react-helmet';
 import Content, { HTMLContent } from '../components/Content';
 
-export const TextPostTemplate = ({ title, content, contentComponent, helmet }) => {
+export const ImagePostTemplate = ({ title, content, contentComponent, helmet }) => {
   const PageContent = contentComponent || Content;
 
   return (
@@ -17,7 +17,7 @@ export const TextPostTemplate = ({ title, content, contentComponent, helmet }) =
 export default ({ data, pathContext }) => {
   const { markdownRemark: post } = data;
 
-  return (<TextPostTemplate
+  return (<ImagePostTemplate
     contentComponent={HTMLContent}
     title={post.frontmatter.title}
     content={post.html}
@@ -25,13 +25,17 @@ export default ({ data, pathContext }) => {
   />);
 };
 
-export const textPostQuery = graphql`
-  query TextPostByPath($path: String!, $imageExp: String) {
+export const ImagePostQuery = graphql`
+  query imagePostByPath($path: String!, $imageExp: String) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       html
       frontmatter {
         path
         title
+        images {
+            description
+            image
+        }
       }
     }
     allImageSharp(filter: {id: {regex: $imageExp}}) {

@@ -1,4 +1,5 @@
 const path = require("path");
+const _ = require('lodash');
 
 exports.createPages = ({ boundActionCreators, graphql }) => {
   const { createPage } = boundActionCreators;
@@ -16,9 +17,15 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
             id
             frontmatter {
               templateKey
+              title
               path
               date
-              title
+              thumbnail
+              tags
+              images {
+                description
+                image
+              }
             }
           }
         }
@@ -31,19 +38,37 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
     }
 
     return result.data.allMarkdownRemark.edges
-    .filter(({ node }) => node.frontmatter.templateKey != 'image-post' && node.frontmatter.templateKey != 'video-post')
-    .forEach(({ node }) => {
-      const pagePath = node.frontmatter.path;
-      createPage({
-        path: pagePath,
-        component: path.resolve(
-          `src/templates/${String(node.frontmatter.templateKey)}.js`
-        ),
-        // additional data can be passed via context
-        context: {
-          path: pagePath
-        }
+      .filter(({ node }) => node.frontmatter.templateKey != 'video-post')
+      .forEach(({ node }) => {
+        const pagePath = node.frontmatter.path;
+
+        let imagesToExtract = getImagesToExtract(node.frontmatter);
+
+        createPage({
+          path: pagePath,
+          component: path.resolve(
+            `src/templates/${String(node.frontmatter.templateKey)}.js`
+          ),
+          // additional data can be passed via context
+          context: {
+            path: pagePath,
+            // if images to extract is empty, then pass an "impossible" regexp
+            imageExp: !_.isEmpty(imagesToExtract) ? new RegExp(imagesToExtract.join('|')) : /\Zx\A/
+          }
+        });
       });
-    });
   });
 };
+
+function getImagesToExtract(frontmatter) {
+  let imagesToExtract = [];
+
+  if (frontmatter.images && frontmatter.images.length && frontmatter.images.forEach) {
+    frontmatter.images.filter(i => i.image).forEach(i => imagesToExtract.push(i.image));
+  }
+  if (frontmatter.thumbnail) {
+    imagesToExtract.push(frontmatter.thumbnail);
+  }
+
+  return imagesToExtract;
+}
