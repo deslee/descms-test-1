@@ -55,7 +55,6 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
     let tags = result.data.allMarkdownRemark.edges
       .map(({node}) => _.get(node, ['frontmatter', 'tags'], []) || []).reduce((cur, val) => { return cur.concat(val) } ,[]);
     tags = _.uniq(tags);
-    console.log(tags);
     tags.forEach(tag => {
       createPage({
         path: `tags/${tag}`,
