@@ -26,26 +26,12 @@ export default ({ data, pathContext }) => {
 };
 
 export const textPostQuery = graphql`
-  query TextPostByPath($path: String!, $imageExp: String) {
+  query TextPostByPath($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
       html
       frontmatter {
         path
         title
-      }
-    }
-    allImageSharp(filter: {id: {regex: $imageExp}}) {
-      edges {
-        node {
-          id
-          sizes(maxWidth: 1920) {
-            base64
-            aspectRatio
-            src
-            srcSet
-            sizes
-          }
-        }
       }
     }
   }
