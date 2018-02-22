@@ -51,6 +51,24 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
       }
     })
 
+    // generate tags
+    let tags = result.data.allMarkdownRemark.edges
+      .map(({node}) => _.get(node, ['frontmatter', 'tags'], []) || []).reduce((cur, val) => { return cur.concat(val) } ,[]);
+    tags = _.uniq(tags);
+    console.log(tags);
+    tags.forEach(tag => {
+      createPage({
+        path: `tags/${tag}`,
+        component: path.resolve(
+          `src/templates/tag-page.js`
+        ),
+        context: {
+          tag: tag,
+          imageExp: convertListOfIdsToRegex(frontPageThumbnails) // TODO: thumbnails specific to each tag page
+        }
+      })
+    });
+
 
     return result.data.allMarkdownRemark.edges
       .filter(({ node }) => node.frontmatter.templateKey != 'video-post')
