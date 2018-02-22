@@ -19,15 +19,13 @@ export default class IndexPage extends React.Component {
 
   render() {
     const { data } = this.props;
-
-    console.log(data)
-
     return (
       <div>
         <Script
           url="https://identity.netlify.com/v1/netlify-identity-widget.js"
           onLoad={() => this.handleScriptLoad()}
         />
+        This is where an index page will go
       </div>
     );
   }
